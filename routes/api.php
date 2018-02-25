@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +13,21 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->prefix('countries')->group(function () {
+Route::post('login', 'UserController@login');
+Route::put('register', 'UserController@register');
 
-	Route::get('/', 'CountriesController@list');
-	Route::post('/', 'CountriesController@country');
-	Route::put('/', 'CountriesController@updateCountry');
-	Route::delete('/', 'CountriesController@deleteCountry');
+Route::middleware('auth:api')->group(function () {
 
-	Route::get('/locations', 'LocationsController@list');
-	Route::post('/locations', 'LocationsController@location');
-	Route::put('/locations', 'LocationsController@updateLocation');
-	Route::delete('/locations', 'LocationsController@deleteLocation');
+	Route::get('countries', 'CountriesController@list');
+	Route::get('countries/{country?}', 'CountriesController@country');
+	Route::post('countries', 'CountriesController@insertCountry');
+	Route::put('countries', 'CountriesController@updateCountry');
+	Route::delete('countries', 'CountriesController@deleteCountry');
+
+	Route::get('countries/locations/all', 'LocationsController@list');
+	Route::get('countries/{country}/locations/{location?}', 'LocationsController@location');
+	Route::post('countries/locations', 'LocationsController@insertLocation');
+	Route::put('countries/locations', 'LocationsController@updateLocation');
+	Route::delete('countries/locations', 'LocationsController@deleteLocation');
 
 });
