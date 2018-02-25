@@ -1,0 +1,9 @@
+{
+  "name": "Locations Scheme",
+  "version": "1.0.0",
+  "description": "To manage a locations tree.",
+  "title": "Manage Locations Tree",
+  "template": {
+  	"forceLanguage": "en"
+  }
+}
