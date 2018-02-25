@@ -14,6 +14,75 @@ class LocationsController extends Controller
 
     public $successStatus = 200;
 
+    /**
+     * @api {get} /countries/locations/all List
+     * @apiName List
+     * @apiGroup Location
+     * @apiHeader {String} Authorization Value is Bearer and add the token user login. Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyMjhjM2U3MzExODQy
+     * @apiHeader {String} Accept_Value application/json
+     * @apiHeader {String} Content-Type application/json      
+     *
+     * @apiSuccess {Object[]} response List of options (Array of Objects).
+     * @apiSuccess {Number} response.id  The country ID.
+     * @apiSuccess {String} response.name  The country name.
+     * @apiSuccess {Date} response.created_at  Date registered.
+     * @apiSuccess {Date} response.updated_at  Date updated.  
+     * @apiSuccess {Object[]} response.locations  List of options (Array of Objects).
+     * @apiSuccess {Number} response.locations.id  The location ID.
+     * @apiSuccess {Number} response.locations.countries_id  The country ID.     
+     * @apiSuccess {String} response.locations.field  The location field name.
+     * @apiSuccess {Number} response.locations.sort  Hierarchy of a location.     
+     * @apiSuccess {Date} response.locations.created_at  Date registered.
+     * @apiSuccess {Date} response.locations.updated_at  Date updated.       
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "response": [
+     *          {
+     *              "id": 5,
+     *              "name": "Venezuela",
+     *              "created_at": "2018-02-25 07:22:21",
+     *              "updated_at": "2018-02-25 07:43:16",
+     *              "locations": [
+     *                  {
+     *                      "id": 4,
+     *                      "countries_id": 5,
+     *                      "field": "Municipio",    
+     *                      "sort": 2,     
+     *                      "created_at": "2018-02-25 07:22:21",
+     *                      "updated_at": "2018-02-25 07:43:16"     
+     *                  },
+     *                  {
+     *                      "id": 5,
+     *                      "countries_id": 5,
+     *                      "field": "Estado",    
+     *                      "sort": 1,     
+     *                      "created_at": "2018-02-25 07:23:21",
+     *                      "updated_at": "2018-02-25 07:43:16"     
+     *                  },
+     *                  {
+     *                      "id": 6,
+     *                      "countries_id": 5,
+     *                      "field": "Ciudad",    
+     *                      "sort": 3,     
+     *                      "created_at": "2018-02-25 07:24:21",
+     *                      "updated_at": "2018-02-25 07:43:16"     
+     *                  }             
+     *              ]               
+     *          },
+     *          {
+     *              "id": 6,
+     *              "name": "Argentina",
+     *              "created_at": "2018-02-23 07:22:21",
+     *              "updated_at": "2018-02-24 07:43:16",
+     *              "locations": []          
+     *          }     
+     *        ],
+     *        "error": []
+     *     }
+     *
+     */
     public function list() 
     {
         $data_response = Country::with("locations")->get();
@@ -26,6 +95,62 @@ class LocationsController extends Controller
             $this->successStatus);      
     }
 
+    /**
+     * @api {get} /countries/{country}/locations/{location?} Detail
+     * @apiName Detail
+     * @apiGroup Location
+     * @apiHeader {String} Authorization Value is Bearer and add the token user login. Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyMjhjM2U3MzExODQy
+     * @apiHeader {String} Accept_Value application/json
+     * @apiHeader {String} Content-Type application/json      
+     *
+     * @apiParam {Number} country_id Country ID.
+     * @apiParam {Number} location_id Location ID.     
+     *     
+     * @apiSuccess {Object[]} response List of options (Array of Objects).
+     * @apiSuccess {Number} response.id  The country ID.
+     * @apiSuccess {String} response.name  The country name.
+     * @apiSuccess {Date} response.created_at  Date registered.
+     * @apiSuccess {Date} response.updated_at  Date updated.  
+     * @apiSuccess {Object[]} response.locations  List of options (Array of Objects).
+     * @apiSuccess {Number} response.locations.id  The location ID.
+     * @apiSuccess {Number} response.locations.countries_id  The country ID.     
+     * @apiSuccess {String} response.locations.field  The location field name.
+     * @apiSuccess {Number} response.locations.sort  Hierarchy of a location.     
+     * @apiSuccess {Date} response.locations.created_at  Date registered.
+     * @apiSuccess {Date} response.locations.updated_at  Date updated.       
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "response": [
+     *          {
+     *              "id": 5,
+     *              "name": "Venezuela",
+     *              "created_at": "2018-02-25 07:22:21",
+     *              "updated_at": "2018-02-25 07:43:16",
+     *              "locations": [
+     *                  {
+     *                      "id": 4,
+     *                      "countries_id": 5,
+     *                      "field": "Municipio",    
+     *                      "sort": 2,     
+     *                      "created_at": "2018-02-25 07:22:21",
+     *                      "updated_at": "2018-02-25 07:43:16"     
+     *                  }          
+     *              ]               
+     *          },
+     *          {
+     *              "id": 6,
+     *              "name": "Argentina",
+     *              "created_at": "2018-02-23 07:22:21",
+     *              "updated_at": "2018-02-24 07:43:16",
+     *              "locations": []          
+     *          }     
+     *        ],
+     *        "error": []
+     *     }
+     *
+     */
     public function location(Request $request) 
     {
         $data_response = array();
@@ -74,6 +199,39 @@ class LocationsController extends Controller
             $this->successStatus);
     }
 
+    /**
+     * @api {post} /countries/locations Register
+     * @apiName Register
+     * @apiGroup Location
+     * @apiHeader {String} Authorization Value is Bearer and add the token user login. Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyMjhjM2U3MzExODQy
+     * @apiHeader {String} Accept_Value application/json
+     * @apiHeader {String} Content-Type application/json      
+     *
+     * @apiParam {Number} country_id Country ID.
+     * @apiParam {String} field Location field name.
+     * @apiParam {Number} sort Hierarchy of a location.
+     *     
+     * @apiSuccess {Object[]} response List of options (Array of Objects).
+     * @apiSuccess {Number} response.id  The country ID.
+     * @apiSuccess {String} response.name  The country name.
+     * @apiSuccess {Date} response.created_at  Date registered.
+     * @apiSuccess {Date} response.updated_at  Date updated.  
+     * @apiSuccess {Object[]} response.locations  List of options (Array of Objects).
+     * @apiSuccess {Number} response.locations.id  The location ID.
+     * @apiSuccess {Number} response.locations.countries_id  The country ID.     
+     * @apiSuccess {String} response.locations.field  The location field name.
+     * @apiSuccess {Number} response.locations.sort  Hierarchy of a location.     
+     * @apiSuccess {Date} response.locations.created_at  Date registered.
+     * @apiSuccess {Date} response.locations.updated_at  Date updated.       
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *        "response": "The location has been registered correctly.",
+     *        "error": []
+     *     }
+     *
+     */
     public function insertLocation(Request $request) 
     {
         $data_response = array();
@@ -121,6 +279,39 @@ class LocationsController extends Controller
             $this->successStatus);
     }
 
+    /**
+     * @api {put} /countries/locations Update
+     * @apiName Update
+     * @apiGroup Location
+     * @apiHeader {String} Authorization Value is Bearer and add the token user login. Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyMjhjM2U3MzExODQy
+     * @apiHeader {String} Accept_Value application/json
+     * @apiHeader {String} Content-Type application/json      
+     *
+     * @apiParam {Number} location_id Location ID.
+     * @apiParam {String} field Location field name.
+     * @apiParam {Number} sort Hierarchy of a location.
+     *     
+     * @apiSuccess {Object[]} response List of options (Array of Objects).
+     * @apiSuccess {Number} response.id  The country ID.
+     * @apiSuccess {String} response.name  The country name.
+     * @apiSuccess {Date} response.created_at  Date registered.
+     * @apiSuccess {Date} response.updated_at  Date updated.  
+     * @apiSuccess {Object[]} response.locations  List of options (Array of Objects).
+     * @apiSuccess {Number} response.locations.id  The location ID.
+     * @apiSuccess {Number} response.locations.countries_id  The country ID.     
+     * @apiSuccess {String} response.locations.field  The location field name.
+     * @apiSuccess {Number} response.locations.sort  Hierarchy of a location.     
+     * @apiSuccess {Date} response.locations.created_at  Date registered.
+     * @apiSuccess {Date} response.locations.updated_at  Date updated.       
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *        "response": "The location has been updated correctly.",
+     *        "error": []
+     *     }
+     *
+     */
     public function updateLocation(Request $request) 
     {
         $data_response = array();
@@ -167,6 +358,37 @@ class LocationsController extends Controller
             $this->successStatus);
     }
 
+    /**
+     * @api {delete} /countries/locations Delete
+     * @apiName Delete
+     * @apiGroup Location
+     * @apiHeader {String} Authorization Value is Bearer and add the token user login. Example: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyMjhjM2U3MzExODQy
+     * @apiHeader {String} Accept_Value application/json
+     * @apiHeader {String} Content-Type application/json      
+     *
+     * @apiParam {Number} location_id Location ID.
+     *     
+     * @apiSuccess {Object[]} response List of options (Array of Objects).
+     * @apiSuccess {Number} response.id  The country ID.
+     * @apiSuccess {String} response.name  The country name.
+     * @apiSuccess {Date} response.created_at  Date registered.
+     * @apiSuccess {Date} response.updated_at  Date updated.  
+     * @apiSuccess {Object[]} response.locations  List of options (Array of Objects).
+     * @apiSuccess {Number} response.locations.id  The location ID.
+     * @apiSuccess {Number} response.locations.countries_id  The country ID.     
+     * @apiSuccess {String} response.locations.field  The location field name.
+     * @apiSuccess {Number} response.locations.sort  Hierarchy of a location.     
+     * @apiSuccess {Date} response.locations.created_at  Date registered.
+     * @apiSuccess {Date} response.locations.updated_at  Date updated.       
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *        "response": "The location has been deleted correctly.",
+     *        "error": []
+     *     }
+     *
+     */
     public function deleteLocation(Request $request) 
     {
         $data_response = array();

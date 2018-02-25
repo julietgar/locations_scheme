@@ -10,18 +10,30 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-
 class UserController extends Controller
 {
 
-
     public $successStatus = 200;
 
-
     /**
-     * Login api
+     * @api {post} /login Login
+     * @apiName Login
+     * @apiGroup User
      *
-     * @return \Illuminate\Http\Response
+     * @apiParam {String} email Email user.
+     * @apiParam {String} password Password user.
+     *
+     * @apiSuccess {Object[]} success List of options (Array of Objects).
+     * @apiSuccess {String} success.token  Token of the User registered.   
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "success": {
+     *          "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyMjhjM2U3MzExODQy"
+     *       }
+     *     }
+     *
      */
     public function login()
     {
@@ -42,17 +54,35 @@ class UserController extends Controller
         }
     }
 
-
     /**
-     * Register api
+     * @api {post} /register Register
+     * @apiName Register
+     * @apiGroup User
      *
-     * @return \Illuminate\Http\Response
+     * @apiParam {String} name User name.
+     * @apiParam {String} email Email user. This is unique.
+     * @apiParam {String} password Password user.
+     * @apiParam {String} c_password Repeat password user. 
+     *
+     * @apiSuccess {Object[]} success List of options (Array of Objects).
+     * @apiSuccess {String} success.token  Token of the User registered.
+     * @apiSuccess {String} success.name  Name of the User registered.     
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "success": {
+     *          "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQyMjhjM2U3MzExODQy",
+     *          "name": "Maria"
+     *       }
+     *     }
+     *
      */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
@@ -73,18 +103,5 @@ class UserController extends Controller
         $success['name'] =  $user->name;
 
         return response()->json(['success'=>$success], $this->successStatus);
-    }
-
-
-    /**
-     * details api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function details()
-    {
-        $user = Auth::user();
-
-        return response()->json(['success' => $user], $this->successStatus);
     }
 }
