@@ -31,8 +31,8 @@ Laravel utilizes Composer to manage its dependencies. So, before using Laravel, 
 #### - Create Application Key:
 	php artisan key:generate
 
-#### - Generate Passport Keys:
-	php artisan passport:keys
+#### - Generate Passport Keys and Install:
+	php artisan passport:install
 
 #### - Execute Apidoc:
 	apidoc -i app/ -o public/apidoc/	
