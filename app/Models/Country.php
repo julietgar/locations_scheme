@@ -1,14 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Country extends Model
 {
-
-    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -33,5 +30,14 @@ class Country extends Model
      */
     protected $dates = ['deleted_at'];
 
+
+    // ***************
+    // Relationships
+    // ***************
+
+    public function locations()
+    {
+        return $this->hasMany('App\Models\LocationField', 'countries_id');
+    }
 
 }

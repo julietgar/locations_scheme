@@ -1,14 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LocationField extends Model
 {
-
-    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -23,7 +20,7 @@ class LocationField extends Model
      * @var array
      */
     protected $fillable = [
-        'field', 'sort',
+        'country_id', 'field', 'sort',
     ];
 
     /**
@@ -33,5 +30,13 @@ class LocationField extends Model
      */
     protected $dates = ['deleted_at'];
 
+    // ***************
+    // Relationships
+    // ***************
+
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Country', 'id', 'countries_id');
+    }
 
 }
