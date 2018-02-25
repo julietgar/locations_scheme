@@ -91,8 +91,8 @@ This is explained in the Documentation API: http://localhost:8000/apidoc/index.h
 
 ##### - Web:
 
-##### - API:
-This is explained in the Documentation API: http://localhost:8000/apidoc/index.html
+-- Login: http://localhost:8000/login
+-- Register: http://localhost:8000/register
 
 #### - Play with the API!:
 All documentation API is explained in http://localhost:8000/apidoc/index.html
