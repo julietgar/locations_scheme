@@ -84,15 +84,15 @@ You need create an user to use the API because it need a token for acces to endp
 You have two ways to create user:
 
 ##### - API:
-This is explained in the Documentation API: http://localhost:8000/apidoc
+This is explained in the Documentation API: http://localhost:8000/apidoc/index.html
 
 ##### - Web:
 
 ##### - API:
-This is explained in the Documentation API: http://localhost:8000/apidoc
+This is explained in the Documentation API: http://localhost:8000/apidoc/index.html
 
 #### - Play with the API!:
-All documentation API is explained in http://localhost:8000/apidoc
+All documentation API is explained in http://localhost:8000/apidoc/index.html
 
 ### Support or Contact
 
