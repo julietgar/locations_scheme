@@ -16,10 +16,10 @@ class LocationsFields extends Migration
         Schema::create('locations_fields', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('countries_id')->unsigned();
-            $table->integer('sort')->unique();
+            $table->string('field');
+            $table->integer('sort');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('countries_id')
                     ->references('id')->on('countries')
