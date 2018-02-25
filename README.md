@@ -92,7 +92,7 @@ You can access to:
 - Register: http://localhost:8000/register
 
 #### - Play with the API!:
-All documentation API is explained in http://localhost:8000/api/apidoc
+All documentation API is explained in http://localhost:8000/apidoc
 
 ### Support or Contact
 
